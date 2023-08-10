@@ -6,7 +6,7 @@ from Models.Naive_Bayes.Bernoulli.Testing.laplace.laplace import getLapLaceTunin
 def naiveBayesTestingFunc(training_probabilities, testing_set, columns, bias=1.3):
     overall_predictions = []
     for i in range(len(testing_set)):
-        row = testing_set.iloc[i]  # Access the row by positional index
+        row = testing_set.iloc[i]
         column_predictions = {"spam": [], "ham": []}
         for column in columns:
             k, word_list = getLapLaceTuningForcolumn(row, column, training_probabilities)
@@ -28,7 +28,7 @@ def NaiveBayesTestingActiveLearning(training_probabilities, testing_set, columns
     hamVariance = []
     overall_predictions = []
     for i in range(len(testing_set)):
-        row = testing_set.iloc[i]  # Access the row by positional index
+        row = testing_set.iloc[i]
         column_predictions = {"spam": [], "ham": []}
         for column in columns:
             k, word_list = getLapLaceTuningForcolumn(row, column, training_probabilities)
@@ -37,8 +37,8 @@ def NaiveBayesTestingActiveLearning(training_probabilities, testing_set, columns
                 word_list=word_list, training_probabilities=training_probabilities,
                 column_name=column, k=k, column_predictions=column_predictions,
                 word_probabilities=word_probabilities)
-        hamVariance.append({"Index": i, "variance": np.array(column_predictions["ham"]).var()})
-        spamVariance.append({"Index": i, "variance": np.array(column_predictions["spam"]).var()})
+        hamVariance.append({"Index": i, "variance": np.array(column_predictions["ham"]).var(), "rowData": testing_set[i]})
+        spamVariance.append({"Index": i, "variance": np.array(column_predictions["spam"]).var(), "rowData": testing_set[i]})
         if abs(sum(column_predictions["ham"])) * bias > abs(sum(column_predictions["spam"])):
             overall_predictions.append(1)
         else:
