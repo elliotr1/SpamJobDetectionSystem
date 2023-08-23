@@ -1,5 +1,5 @@
 import random
-
+import multiprocessing as mp
 import pandas as pd
 from Models.Naive_Bayes.Bernoulli.Model_Builder.model import naive_bayes_mixed_data, naive_bayes_func
 import json
@@ -55,8 +55,19 @@ unseen_dfs = sharedColumnsObj.returnReducedDatasets()
 unseen_datasets_being_used = [{"table_name": "reed scraped data", "dataset": unseen_dfs[0]}]
 # {"table_name": "Datasets/data job posts.csv", "dataset": unseen_dfs[1]},
 # {"table_name": "Datasets/Jobs.csv", "dataset": unseen_dfs[0]}]
-print(len(seen_spam_and_ham_dataset))
-for i in range(10):
-     naive_bayes_mixed_data(dataset,unseen_datasets_being_used,  .999)
-     print(spamVariance)
-#scrapReedJobs()
+
+
+
+
+def NaiveBayesModel():
+    print(len(seen_spam_and_ham_dataset))
+    for i in range(10):
+         naive_bayes_mixed_data(dataset,unseen_datasets_being_used,  .999)
+         print(spamVariance)
+if __name__ == "__main__":
+    pool = multiprocessing.Pool(processes=2)
+    p1 = mp.apply_async(target=scrapReedJobs, args=None)
+    p2 = mp.apply_async(target=NaiveBayesModel, args=None)
+    pool.close()
+    pool.join()
+    print("Process has ended")
